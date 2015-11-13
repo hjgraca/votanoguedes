@@ -1,11 +1,10 @@
 var express = require("express"),
     app = express(),
-    bodyParser = require('body-parser'),
     rest = require('restler'),
     uuid = require('node-uuid'),
     _ = require("underscore"),
     hostname = process.env.HOSTNAME || 'localhost',
-    port = parseInt(process.env.PORT, 10) || 4567,
+    port = process.env.PORT || 1337,
     publicDir = process.argv[2] || __dirname + '/public';
 
 app.get("/", function (req, res) {
@@ -32,10 +31,6 @@ app.post('/votar', function(req, res) {
     });
 });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
 app.use(express.static(publicDir));
 
 function getVotes(callback){
