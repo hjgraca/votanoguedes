@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vota no Gudes!!</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- Bootstrap -->
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" />
+
+	<link href="http://fonts.googleapis.com/css?family=Abel|Open+Sans:400,600" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<style>
+
+		/* http://css-tricks.com/perfect-full-page-background-image/ */
+		html {
+			background: url(//cdn.playbuzz.com/cdn/19bd33f4-6ddf-433f-81ff-14d42121fe9a/93f70970-f32d-4e4d-813d-a27db7f1907e.jpg) no-repeat center center fixed; 
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+		}
+
+		body {
+			padding-top: 20px;
+			font-size: 16px;
+			font-family: "Open Sans",serif;
+			background: transparent;
+		}
+
+		h1 {
+			font-family: "Abel", Arial, sans-serif;
+			font-weight: 400;
+			font-size: 40px;
+		}
+
+		/* Override B3 .panel adding a subtly transparent background */
+		.panel {
+			background-color: rgba(255, 255, 255, 0.9);
+		}
+
+		.margin-base-vertical {
+			margin: 40px 0;
+		}
+
+	</style>
+
+</head>
+<body>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 panel panel-default">
+
+				<h1 class="margin-base-vertical">Vota no Guedes!</h1>
+
+				<p>
+					Vota no Guedes para <a href="http://www.eurosport.co.uk/football/premier-league/2015-2016/have-your-say-who-should-win-the-2015-golden-boy-award_sto4980986/story.shtml">Golden Boy 2015</a>
+				</p>
+				<p>
+					Porque votar neste site? Porque em vez de so 1 voto ao clicar no botao votamos no minimo 4 vezes ate o site bloquear o ip, o ip sera bloqueado por uns momentos o que significa que mais tarde podes voltar a votar.
+				</p>
+
+				<p>
+					Juntos vamos fazer o Guedes o Golden Boy 2015, viva o Benfica!!
+				</p>
+				<br/>
+				<p class="text-center">
+					<button type="button" id="votar" class="btn btn-success btn-lg">Clica aqui para votar</button>
+				</p>
+				</span>
+				<div class="margin-base-vertical">
+					<p id="limite" class="text-muted" style="display:none">Limite de votos atingido por agora, volta mais tarde</p>
+					<p class="text-muted">Votos: <b id="votos"></b></p>
+				</div>
+			</div><!-- //main content -->
+		</div><!-- //row -->
+	</div> <!-- //container -->
+
+<script>
+$(document).ready(function(){
+	$.getJSON("/votes", function( votes ) {
+		$("#votos").text(votes.vote);
+	});
+});
+$("#votar").click(function(){
+	$.post( "/votar")
+	.done(function( data ) {
+		if(data.result === "Overflow"){
+			$("#limite").show();
+		}else{
+			$("#limite").hide();
+		}
+		$("#votos").text(data.votes);
+	});
+});
+</script>
+</body>
+</html>
